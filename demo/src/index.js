@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime';
-import { LEDuino } from '@elliottkember/arduino-leds';
+import { LEDuino } from '@elliottkember/leduino';
 import build from './build';
 
 new LEDuino({
