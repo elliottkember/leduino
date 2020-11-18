@@ -9,11 +9,9 @@ class LEDuino {
   cols: number;
   canvas?: HTMLCanvasElement;
   serpentine: boolean;
-  dataPin: number;
   matrixController: WS2812Controller;
   runner: AVRRunner;
   _hex: string;
-  // onPixels: (pixels: Array<Pixel>);
 
   constructor({
     rows = 14,
@@ -22,7 +20,7 @@ class LEDuino {
     serpentine = true,
     hex = '',
     onPixels = (pixels: Array<Pixel>) => {
-      console.log('No pixel callback');
+      console.log('No pixel callback', pixels);
     },
     onSerial = (serialOutput: string) => {
       console.log('No serial callback', serialOutput);
@@ -35,9 +33,6 @@ class LEDuino {
     this.onSerial = onSerial;
     this.serpentine = serpentine;
     this.hex = hex;
-
-    // Used for the precompiled code
-    this.dataPin = 12;
   }
 
   onPixels = (pixels: Array<Pixel>) => console.log('Pixels callback was not defined', pixels);
