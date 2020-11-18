@@ -1,15 +1,8 @@
 import { AVRRunner } from './execute';
 import { drawPixels } from './drawPixels';
 import { WS2812Controller } from './ws2812';
+import Pixel from './pixel';
 const MHZ = 16000000;
-
-class Pixel {
-  x = 0;
-  y = 0;
-  r = 0;
-  g = 0;
-  b = 0;
-}
 
 class LEDuino {
   rows: number;

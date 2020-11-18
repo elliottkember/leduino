@@ -1,5 +1,7 @@
+import Pixel from './pixel';
+
 export const drawPixels = (
-  pixels: Array<object>,
+  pixels: Array<Pixel>,
   canvas: HTMLCanvasElement,
   rows: number,
   cols: number,
