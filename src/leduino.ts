@@ -52,7 +52,9 @@ class LEDuino {
 
     this.runner.portB.addListener(this.listener);
 
-    this.runner.usart.onByteTransmit = (value) => this.onSerial(String.fromCharCode(value));
+    this.runner.usart.onByteTransmit = (value) => {
+      this.onSerial && this.onSerial(String.fromCharCode(value));
+    };
 
     this.start();
   }
