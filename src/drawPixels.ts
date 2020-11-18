@@ -1,7 +1,16 @@
-export const drawPixels = (pixels, canvas, rows, cols, serpentine) => {
+export const drawPixels = (
+  pixels: Array<object>,
+  canvas: HTMLCanvasElement,
+  rows: number,
+  cols: number,
+  serpentine: boolean
+) => {
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!ctx) return;
+
+  ctx?.clearRect(0, 0, canvas.width, canvas.height);
 
   const pixelWidth = canvas.width / cols;
   const pixelHeight = canvas.height / rows;
