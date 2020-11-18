@@ -1,18 +1,29 @@
-import { AVRRunner } from "./execute";
-import { WS2812Controller } from "./ws2812";
+import { AVRRunner } from './execute';
+import { drawPixels } from './drawPixels';
+import { WS2812Controller } from './ws2812';
 const MHZ = 16000000;
 
-export default class Arduino {
-  pixelsCallback = () => console.log("Pixels callback not set");
-  serialCallback = () => console.log("Serial callback not set");
+export default class LEDuino {
+  constructor({ rows = 14, cols = 14, canvas, serpentine = true, hex, onPixels, onSerial }) {
+    this.rows = rows;
+    this.cols = cols;
+    this.canvas = canvas;
+    this.onPixels = onPixels;
+    this.onSerial = onSerial;
+    this.serpentine = serpentine;
+    this.hex = hex;
+
+    // Used for the precompiled code
+    this.dataPin = 12;
+  }
+
+  onPixels = () => console.log('Pixels callback was not defined');
+  onSerial = () => console.log('Serial callback was not defined');
 
   cpuNanos = () => Math.round((this.runner.cpu.cycles / MHZ) * 1000000000);
 
   listener = () => {
-    this.matrixController.feedValue(
-      this.runner.portB.pinState(6),
-      this.cpuNanos()
-    );
+    this.matrixController.feedValue(this.runner.portB.pinState(6), this.cpuNanos());
   };
 
   set hex(newHex) {
@@ -27,8 +38,7 @@ export default class Arduino {
 
     this.runner.portB.addListener(this.listener);
 
-    this.runner.usart.onByteTransmit = (value) =>
-      this.serialCallback(String.fromCharCode(value));
+    this.runner.usart.onByteTransmit = (value) => this.onSerial(String.fromCharCode(value));
 
     this.start();
   }
@@ -46,11 +56,14 @@ export default class Arduino {
 
       for (let row = 0; row < this.rows; row++) {
         for (let col = 0; col < this.cols; col++) {
-          let value = pixels[row * this.cols + col];
+          const value = pixels[row * this.cols + col];
+
+          let x = col;
+          if (this.serpentine) x = row % 2 ? this.cols - col - 1 : col;
 
           pixelsToDraw.push({
+            x,
             y: row,
-            x: row % 2 ? this.cols - col - 1 : col,
             b: value & 0xff,
             r: (value >> 8) & 0xff,
             g: (value >> 16) & 0xff,
@@ -58,7 +71,15 @@ export default class Arduino {
         }
       }
 
-      this.pixelsCallback(pixelsToDraw);
+      if (this.canvas) {
+        drawPixels(pixelsToDraw, this.canvas, this.rows, this.cols, this.serpentine);
+      } else {
+        this.onPixels(pixelsToDraw);
+      }
     });
   };
 }
+
+module.exports = {
+  LEDuino,
+};

@@ -1,1 +1,2 @@
-export { Arduino } from "./arduino";
+export { LEDuino } from './arduino';
+export { drawPixels } from './drawPixels';

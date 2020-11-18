@@ -7,8 +7,10 @@
   "types": "./dist/esm/index.d.ts",
   "scripts": {
     "build": "rimraf dist && tsc --sourceMap false && tsc -m commonjs --outDir dist/cjs --sourceMap false",
+    "build:demo": "parcel build demo/src/index.html -d demo/dist",
     "prepare": "npm run build",
-    "lint": "eslint src/**/*.ts",
+    "start": "parcel demo/src/index.html -d demo/build",
+    "lint": "eslint src/**/*.ts src/**/*.js demo/**/*.ts demo/**/*.js",
     "test": "npm run lint && jest",
     "test:watch": "jest --watch",
     "benchmark:prepare": "ts-node --project tsconfig.benchmark.json benchmark/convert-instructions.ts",
@@ -46,7 +48,12 @@
   "files": [
     "dist"
   ],
+  "alias": {
+    "@elliottkember/arduino-leds": "./src"
+  },
   "dependencies": {
-    "avr8js": "^0.12.0"
+    "avr8js": "^0.12.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0"
   }
 }
