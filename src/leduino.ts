@@ -19,12 +19,8 @@ class LEDuino {
     canvas = undefined,
     serpentine = true,
     hex = '',
-    onPixels = (pixels: Array<Pixel>) => {
-      console.log('No pixel callback', pixels);
-    },
-    onSerial = (serialOutput: string) => {
-      console.log('No serial callback', serialOutput);
-    },
+    onPixels = undefined,
+    onSerial = undefined,
   }) {
     this.rows = rows;
     this.cols = cols;
@@ -35,8 +31,8 @@ class LEDuino {
     this.hex = hex;
   }
 
-  onPixels = (pixels: Array<Pixel>) => console.log('Pixels callback was not defined', pixels);
-  onSerial = (output: string) => console.log('Serial callback was not defined', output);
+  onPixels?: (pixels: Array<Pixel>) => void;
+  onSerial?: (output: string) => void;
 
   cpuNanos = () => Math.round((this.runner.cpu.cycles / MHZ) * 1000000000);
 
@@ -91,7 +87,9 @@ class LEDuino {
 
       if (this.canvas) {
         drawPixels(pixelsToDraw, this.canvas, this.rows, this.cols, this.serpentine);
-      } else {
+      }
+
+      if (this.onPixels) {
         this.onPixels(pixelsToDraw);
       }
     });
