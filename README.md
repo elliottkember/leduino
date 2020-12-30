@@ -8,7 +8,7 @@ It's a fairly simple set of configuration values and constants used to configure
 
 You can see an example of this project in the `demo` directory, but basically:
 
-```
+```js
 import LEDuino from '@elliottkember/leduino';
 
 new LEDuino({
