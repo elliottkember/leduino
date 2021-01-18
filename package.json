@@ -1,6 +1,6 @@
 {
   "name": "@elliottkember/leduino",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "JavaScript Arduino LED Emulator",
   "main": "dist/cjs/index.js",
   "module": "./dist/esm/index.js",
