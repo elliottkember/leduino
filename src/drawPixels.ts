@@ -22,7 +22,7 @@ export const drawPixels = (
     let y;
 
     if (!serpentine) {
-      if (pixel.y % 2 == 1) {
+      if (pixel.y % 2 == 0) {
         x = pixel.x * pixelWidth;
       } else {
         x = (cols - 1) * pixelWidth - pixel.x * pixelWidth;
