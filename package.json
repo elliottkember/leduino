@@ -52,7 +52,7 @@
     "@elliottkember/leduino": "./src"
   },
   "dependencies": {
-    "avr8js": "^0.12.0",
+    "avr8js": "^0.14.10",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0"
   }
