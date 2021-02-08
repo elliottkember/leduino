@@ -1620,10 +1620,10 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-avr8js@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/avr8js/-/avr8js-0.12.0.tgz#7442ff1d7c4ea8fbd8a625fa8ed0a6b795b8dbc1"
-  integrity sha512-Bz9NrIiAIYHvbpTY6OfFZ0Q/TElpFYH2iHX/w7GUkf+6hi0EO0rqGFpjiFVmG4mM8duzbZWrkiHcjHytXBPhcw==
+avr8js@^0.14.10:
+  version "0.14.10"
+  resolved "https://registry.yarnpkg.com/avr8js/-/avr8js-0.14.10.tgz#36ec36d54154a81077ba908a80a16ca97bccd113"
+  integrity sha512-Cva+9evCDAmA2qLM4cOOXl7Nzi+295y5rut0Ru+oGCYHCR5U2W2Xfbgke8eOS6pPthBgs3omcdSXoJnVAQlGCw==
 
 aws-sign2@~0.7.0:
   version "0.7.0"
