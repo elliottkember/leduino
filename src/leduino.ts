@@ -1,5 +1,5 @@
 import { AVRRunner } from './execute';
-import { drawLayoutPixels } from './drawPixels';
+import { drawPixels } from './drawPixels';
 import { WS2812Controller } from './ws2812';
 import Pixel from './pixel';
 const MHZ = 16000000;
@@ -98,25 +98,14 @@ class LEDuino {
       }
 
       if (this.canvas) {
-        if (this.coordinates) {
-          drawLayoutPixels(
-            pixelsToDraw,
-            this.canvas,
-            this.rows,
-            this.cols,
-            this.serpentine,
-            this.coordinates
-          );
-        } else {
-          drawLayoutPixels(
-            pixelsToDraw,
-            this.canvas,
-            this.rows,
-            this.cols,
-            this.serpentine,
-            this.coordinates
-          );
-        }
+        drawPixels(
+          pixelsToDraw,
+          this.canvas,
+          this.rows,
+          this.cols,
+          this.serpentine,
+          this.coordinates
+        );
       }
 
       if (this.onPixels) {
