@@ -1,5 +1,5 @@
 import { AVRRunner } from './execute';
-import { drawPixels } from './drawPixels';
+import { drawLayoutPixels } from './drawPixels';
 import { WS2812Controller } from './ws2812';
 import Pixel from './pixel';
 const MHZ = 16000000;
@@ -12,6 +12,7 @@ class LEDuino {
   matrixController: WS2812Controller;
   runner: AVRRunner;
   _hex: string;
+  coordinates?: [number, number][];
 
   constructor({
     rows = 14,
@@ -21,6 +22,7 @@ class LEDuino {
     hex = '',
     onPixels = undefined,
     onSerial = undefined,
+    coordinates = undefined,
   }) {
     this.rows = rows;
     this.cols = cols;
@@ -29,6 +31,7 @@ class LEDuino {
     this.onSerial = onSerial;
     this.serpentine = serpentine;
     this.hex = hex;
+    this.coordinates = coordinates;
   }
 
   onPixels?: (pixels: Array<Pixel>) => void;
@@ -70,25 +73,50 @@ class LEDuino {
       if (!pixels) return;
       const pixelsToDraw = [];
 
-      for (let row = 0; row < this.rows; row++) {
-        for (let col = 0; col < this.cols; col++) {
-          const value = pixels[row * this.cols + col];
+      for (let i = 0; i < pixels.length; i++) {
+        const value = pixels[i];
 
-          let x = col;
+        let x, y;
+        if (this.coordinates) {
+          const coordinates = this.coordinates[i];
+          [x, y] = coordinates;
+        } else {
+          const col = i % this.cols;
+          const row = Math.floor(i / this.cols); // - col;
+          x = col;
           if (this.serpentine) x = row % 2 ? this.cols - col - 1 : col;
-
-          pixelsToDraw.push({
-            x,
-            y: row,
-            b: value & 0xff,
-            r: (value >> 8) & 0xff,
-            g: (value >> 16) & 0xff,
-          });
+          y = row;
         }
+
+        pixelsToDraw.push({
+          x,
+          y,
+          b: value & 0xff,
+          r: (value >> 8) & 0xff,
+          g: (value >> 16) & 0xff,
+        });
       }
 
       if (this.canvas) {
-        drawPixels(pixelsToDraw, this.canvas, this.rows, this.cols, this.serpentine);
+        if (this.coordinates) {
+          drawLayoutPixels(
+            pixelsToDraw,
+            this.canvas,
+            this.rows,
+            this.cols,
+            this.serpentine,
+            this.coordinates
+          );
+        } else {
+          drawLayoutPixels(
+            pixelsToDraw,
+            this.canvas,
+            this.rows,
+            this.cols,
+            this.serpentine,
+            this.coordinates
+          );
+        }
       }
 
       if (this.onPixels) {
